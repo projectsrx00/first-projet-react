@@ -1,19 +1,12 @@
-import logo from '../../images/ofrench.png';
+import logo from "../../images/logo.svg";
 
 function Header() {
-    let color = { color: 'orange' };
-    let style = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-around'
-    };
-
-    return (
-        <div style={style}>
-            <img src={logo} alt="ofrench" height='100px'/>
-            <h2 style={color}>Ofrench Tacos</h2>
-        </div>
-    );
+  return (
+    <header className="header">
+      <img src={logo} alt="Logo" className="header-logo" />
+      <h1 className="header-title">TP1 - Profil du stagiaire</h1>
+    </header>
+  );
 }
 
 export default Header;
