@@ -1,12 +1,16 @@
-import Visiteur from "./composants/Visiteur";
-import Client from "./composants/Client";
-
+import {useState} from 'react';
 function App() {
-  let connecte = true;
-  let name = 'Rania';
+  const [init,setInit] = useState(10);
+  function plus () {
+      setInit(init + 2)
+  }
+  function moins () {
+    setInit(init - 1)
+  }
   return (
     <div>
-      {connecte ? <Client nom={name}/> : <Visiteur/>}
+      <h2>CLICKER COUNTER</h2>
+      <button onClick={plus}>+</button>{init}<button onClick={moins}>-</button>
     </div>
   );
 }
