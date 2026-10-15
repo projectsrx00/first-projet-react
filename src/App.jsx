@@ -10,7 +10,7 @@ function App() {
   return (
     <div>
       <h2>CLICKER COUNTER</h2>
-      <button onClick={plus}>+</button>{init}<button onClick={moins}>-</button>
+      <button onClick={plus}>+</button>{init}<button onClick={moins}>-</button> 
     </div>
   );
 }
