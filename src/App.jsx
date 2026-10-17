@@ -1,16 +1,12 @@
-import StudentProfile from './composants/StudentProfile'
-import { useState } from 'react';
+import ProductList from './composants/ProductList';
 
-function App () {
-    const [visible,setVisible] = useState(false);
-    function modifier_visibilite () {
-        visible ? setVisible(false) : setVisible(true)
-    }
+function App() {
     return (
         <div>
-            <button onClick={modifier_visibilite}>{visible ? 'Masquer mon profil' : 'Afficher mon profil' }</button>
-            {visible ? <StudentProfile /> : <p>Les informations sont masquées</p>}
+            <h1>Liste des produits</h1>
+            <ProductList />
         </div>
-    )
+    );
 }
+
 export default App;
