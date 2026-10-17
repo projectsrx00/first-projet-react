@@ -15,6 +15,7 @@ function App() {
             <p style={{ color: pseudo.length === 20 ? 'red' : 'black' }}>
                 {pseudo.length} / 20 caractères
             </p>
+            {pseudo !== '' ? <p>Bonjour, {pseudo}</p> : <p>Bonjour, anonyme !</p>}
         </div>
     );
 }
