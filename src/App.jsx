@@ -1,10 +1,9 @@
-import ListeTaches from './composants/ListeTaches'
-import { useState } from 'react';
+import FavoriteMovies from './composants/FavoriteMovies'
 
 function App () {
     return (
         <div>
-            <ListeTaches />
+            <FavoriteMovies />
         </div>
     )
 }
