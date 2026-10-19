@@ -1,10 +1,10 @@
-
-import Counter from './composants/Counter';
+import MoodSelector from './composants/MoodSelector'
 
 function App () {
     return (
-        <Counter />
+        <div>
+            <MoodSelector />
+        </div>
     )
-        
 }
 export default App;
