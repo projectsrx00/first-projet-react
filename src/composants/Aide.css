@@ -1,0 +1,52 @@
+.aide-card {
+  padding: 18px 20px;
+  background: #ffffff;
+  border: 1px solid #dbe7f3;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(35, 76, 120, 0.07);
+}
+
+.aide-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.aide-head h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #23466b;
+}
+
+.badge-version {
+  padding: 4px 9px;
+  font-size: 11px;
+  color: #285b91;
+  background: #e8f2fc;
+  border-radius: 5px;
+}
+
+.aide-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #64748b;
+}
+
+.aide-list li {
+  margin-bottom: 8px;
+}
+
+.aide-list li::before {
+  content: "• ";
+  color: #3978b8;
+  font-weight: bold;
+}
+
+.aide-list strong {
+  color: #345778;
+}

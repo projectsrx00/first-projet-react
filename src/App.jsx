@@ -1,14 +1,9 @@
-import Visiteur from "./composants/Visiteur";
-import Client from "./composants/Client";
+import MainPage from "./composants/MainPage";
 
 function App() {
-  let connecte = true;
-  let name = 'Rania';
-  return (
-    <div>
-      {connecte ? <Client nom={name}/> : <Visiteur/>}
-    </div>
-  );
+    return (
+        <MainPage />
+    );
 }
 
 export default App;

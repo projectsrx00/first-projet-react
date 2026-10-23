@@ -1,0 +1,49 @@
+.recipe-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.recipe-filter input,
+.recipe-filter select {
+  height: 35px;
+  padding: 0 11px;
+  font-size: 12px;
+  color: #345778;
+  background: #fff;
+  border: 1px solid #d6e2ee;
+  border-radius: 7px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.recipe-filter input {
+  width: 170px;
+  box-sizing: border-box;
+}
+
+.recipe-filter select {
+  min-width: 135px;
+  cursor: pointer;
+}
+
+.recipe-filter input::placeholder {
+  color: #94a3b8;
+}
+
+.recipe-filter input:focus,
+.recipe-filter select:focus {
+  border-color: #4a83b8;
+  box-shadow: 0 0 0 3px rgba(74, 131, 184, 0.12);
+}
+
+@media (max-width: 480px) {
+  .recipe-filter {
+    flex-direction: column;
+  }
+
+  .recipe-filter input,
+  .recipe-filter select {
+    width: 100%;
+  }
+}
