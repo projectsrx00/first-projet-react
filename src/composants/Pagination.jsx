@@ -1,7 +1,11 @@
 import "./Pagination.css";
 
 function Pagination(props) {
-    const pages = Array.from({ length: props.totalPages }, (_, i) => i + 1);
+    const pages = [];
+
+    for (let i = 1; i <= props.totalPages; i++) {
+    pages.push(i);
+    }
 
     return (
         <nav className="pagination">

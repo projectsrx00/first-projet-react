@@ -4,7 +4,6 @@ import "./RecipeForm.css";
 function RecipeForm(props) {
     const recette = props.recetteAModifier;
 
-    // En mode édition, le formulaire est pré-rempli avec la recette
     const [nom, setNom] = useState(recette ? recette.nom : "");
     const [categorie, setCategorie] = useState(recette ? recette.categorie : "");
     const [ingredient, setIngredient] = useState("");
