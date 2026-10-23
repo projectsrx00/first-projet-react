@@ -180,7 +180,6 @@ function MainPage() {
     const [recherche, setRecherche] = useState("");
     const [categorie, setCategorie] = useState("");
 
-    // Enlève les accents et met en minuscules pour comparer
     function normaliser(texte) {
         return texte
             .normalize("NFD")
@@ -188,14 +187,12 @@ function MainPage() {
             .toLowerCase();
     }
 
-    // 1) Filtrage par nom et par catégorie
     const recettesFiltrees = recettes.filter((r) => {
         const correspondNom = normaliser(r.nom).includes(normaliser(recherche.trim()));
         const correspondCategorie = categorie === "" || r.categorie === categorie;
         return correspondNom && correspondCategorie;
     });
 
-    // 2) Pagination sur la liste filtrée
     const recettesParPage = 3;
     const totalPages = Math.max(1, Math.ceil(recettesFiltrees.length / recettesParPage));
     const pageCourante = Math.min(page, totalPages);
@@ -234,14 +231,12 @@ function MainPage() {
 
     function enregistrerRecette(recette) {
         if (recetteAModifier) {
-            // Mode édition : on remplace la recette existante
             setRecettes(
                 recettes.map((r) =>
                     r.id === recetteAModifier.id ? { ...r, ...recette } : r
                 )
             );
         } else {
-            // Mode création
             setRecettes([...recettes, { ...recette, id: Date.now() }]);
         }
 
