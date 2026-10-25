@@ -1,102 +1,140 @@
+
 import { useState } from "react";
-import "./RecipeForm.css";
 
 function RecipeForm(props) {
-    const recette = props.recetteAModifier;
+    const [nom, setNom] = useState(props.recette ? props.recette.nom : "");
+    const [categorie, setCategorie] = useState(props.recette ? props.recette.categorie : "entrée");
+    const [ingredients, setIngredients] = useState(props.recette ? props.recette.ingredients : [""]);
+    const [difficulte, setDifficulte] = useState(props.recette ? props.recette.difficulte : 1);
+    const [description, setDescription] = useState(props.recette ? props.recette.description : "");
+    const [photo, setPhoto] = useState(props.recette ? props.recette.photo : "");
 
-    const [nom, setNom] = useState(recette ? recette.nom : "");
-    const [categorie, setCategorie] = useState(recette ? recette.categorie : "");
-    const [ingredient, setIngredient] = useState("");
-    const [ingredients, setIngredients] = useState(recette ? recette.ingredients : []);
+    function ajouterIngredient() {
+        setIngredients([...ingredients, ""]);
+    }
 
-    function ajouterIngredient(e) {
-        e.preventDefault();
-
-        if (ingredient.trim() !== "") {
-            setIngredients([...ingredients, ingredient]);
-            setIngredient("");
-        }
+    function modifierIngredient(index, valeur) {
+        setIngredients(
+            ingredients.map((e, i) => i === index ? valeur : e)
+        );
     }
 
     function supprimerIngredient(index) {
         setIngredients(ingredients.filter((e, i) => i !== index));
     }
 
-    function envoyerFormulaire(e) {
+    function envoyer(e) {
         e.preventDefault();
 
-        const nouvelleRecette = {
-            nom: nom,
-            categorie: categorie,
-            ingredients: ingredients
+        const recette = {
+            nom,
+            categorie,
+            ingredients: ingredients.filter(e => e.trim() !== ""),
+            difficulte: Number(difficulte),
+            description,
+            photo
         };
 
-        props.enregistrerRecette(nouvelleRecette);
-
-        setNom("");
-        setCategorie("");
-        setIngredient("");
-        setIngredients([]);
+        if (props.recette) {
+            props.modifier_recipe(recette);
+        } else {
+            props.ajouter_recipe(recette);
+        }
     }
 
     return (
-        <form className="recipe-form" onSubmit={envoyerFormulaire}>
-            <label>Nom</label>
+        <form onSubmit={envoyer} style={{ border: "1px solid black", padding: "20px" }}>
+            <h2>{props.recette ? "Modifier la recette" : "Ajouter une recette"}</h2>
+
+            <label>Nom :</label>
             <input
+                type="text"
                 value={nom}
-                placeholder="Ex: Pancakes maison"
                 onChange={(e) => setNom(e.target.value)}
                 required
             />
 
-            <label>Catégorie</label>
+            <br /><br />
+
+            <label>Catégorie :</label>
             <select
                 value={categorie}
                 onChange={(e) => setCategorie(e.target.value)}
-                required
             >
-                <option value="">Choisir une catégorie</option>
-                <option value="Entrée">Entrée</option>
-                <option value="Plat principal">Plat principal</option>
-                <option value="Dessert">Dessert</option>
-                <option value="Boisson">Boisson</option>
-                <option value="Salade">Salade</option>
+                <option value="entrée">Entrée</option>
+                <option value="plat">Plat</option>
+                <option value="dessert">Dessert</option>
+                <option value="boisson">Boisson</option>
             </select>
 
-            <label>Ingrédients</label>
-            <input
-                value={ingredient}
-                onChange={(e) => setIngredient(e.target.value)}
-                placeholder="Ex: Tomate"
-            />
+            <br /><br />
 
-            <button type="button" className="btn-add-ingredient" onClick={ajouterIngredient}>
-                + Ajouter un ingrédient
+            <label>Ingrédients :</label>
+
+            {ingredients.map((ingredient, index) => (
+                <div key={index}>
+                    <input
+                        type="text"
+                        value={ingredient}
+                        onChange={(e) => modifierIngredient(index, e.target.value)}
+                    />
+
+                    <button
+                        type="button"
+                        onClick={() => supprimerIngredient(index)}
+                    >
+                        Supprimer cet ingrédient
+                    </button>
+                </div>
+            ))}
+
+            <button type="button" onClick={ajouterIngredient}>
+                Ajouter un ingrédient
             </button>
 
-            <ul>
-                {ingredients.map((e, index) => (
-                    <li key={index}>
-                        {e}
-                        <button
-                            type="button"
-                            onClick={() => supprimerIngredient(index)}
-                        >
-                            Supprimer
-                        </button>
-                    </li>
-                ))}
-            </ul>
+            <br /><br />
 
-            <div className="form-actions">
-                <button type="submit" className="btn-primary">
-                    Enregistrer
-                </button>
+            <label>Difficulté : {difficulte}</label>
+            <input
+                type="range"
+                min="1"
+                max="5"
+                value={difficulte}
+                onChange={(e) => setDifficulte(e.target.value)}
+            />
 
-                <button type="button" className="btn-ghost" onClick={props.annuler}>
-                    Annuler
-                </button>
-            </div>
+            <br /><br />
+
+            <label>Description :</label>
+            <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+            />
+
+            <br /><br />
+
+            <label>Image :</label>
+            <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                    if (e.target.files[0]) {
+                        setPhoto(URL.createObjectURL(e.target.files[0]));
+                    }
+                }}
+            />
+
+            {photo && <img src={photo} alt="Aperçu" width="150" />}
+
+            <br /><br />
+
+            <button type="submit">
+                {props.recette ? "Enregistrer les modifications" : "Ajouter la recette"}
+            </button>
+
+            <button type="button" onClick={props.annuler}>
+                Annuler
+            </button>
         </form>
     );
 }

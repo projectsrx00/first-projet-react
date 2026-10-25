@@ -2,7 +2,6 @@
 import { useState, useContext, createContext } from "react";
 
 const UserContext = createContext();
-
 function TestUseContxt() {
     const [user, setUser] = useState({
         name: "John",

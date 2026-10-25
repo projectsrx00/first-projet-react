@@ -1,25 +1,33 @@
-import "./RecipeFilter.css";
 
 function RecipeFilter(props) {
+    const categories = [...new Set(
+        props.liste.map(e => e.categorie)
+    )];
+
     return (
-        <div className="recipe-filter">
+        <div>
             <input
                 type="text"
-                value={props.recherche}
-                onChange={(e) => props.setRecherche(e.target.value)}
-                placeholder="Rechercher..."
+                value={props.search}
+                onChange={(e) =>
+                    props.filtrer(e.target.value, props.cat)
+                }
+                placeholder="Rechercher une recette..."
             />
 
             <select
-                value={props.categorie}
-                onChange={(e) => props.setCategorie(e.target.value)}
+                value={props.cat}
+                onChange={(e) =>
+                    props.filtrer(props.search, e.target.value)
+                }
             >
-                <option value="">Toutes catégories</option>
-                <option value="Entrée">Entrée</option>
-                <option value="Plat principal">Plat principal</option>
-                <option value="Dessert">Dessert</option>
-                <option value="Boisson">Boisson</option>
-                <option value="Salade">Salade</option>
+                <option value="">Toutes les catégories</option>
+
+                {categories.map((e) => (
+                    <option key={e} value={e}>
+                        {e}
+                    </option>
+                ))}
             </select>
         </div>
     );

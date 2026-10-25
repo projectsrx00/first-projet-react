@@ -1,213 +1,160 @@
+
 import { useState } from "react";
-import RecipeFilter from "./RecipeFilter";
+import RecipeItem from "./RecipeItem";
 import RecipeForm from "./RecipeForm";
+import RecipeFilter from "./RecipeFilter";
 import RecipeList from "./RecipeList";
-import Aide from "./Aide";
 import Pagination from "./Pagination";
-import "./MainPage.css";
 
 function MainPage() {
     const [recettes, setRecettes] = useState([
-  {
-    id: 1,
-    nom: "Tortilla de pommes de terre",
-    categorie: "Plat principal",
-    description: "Classique espagnole, moelleuse à l'intérieur.",
-    ingredients: ["pommes de terre", "œufs", "oignon", "huile", "sel"],
-    difficulte: "Facile",
-    date: "2024-03-12",
-    emoji: "🍳",
-    image: null
-  },
-  {
-    id: 2,
-    nom: "Gaspacho andalou",
-    categorie: "Entrée",
-    description: "Frais, idéal pour l'été.",
-    ingredients: ["tomate", "concombre", "poivron", "ail", "huile", "vinaigre"],
-    difficulte: "Facile",
-    date: "2024-06-01",
-    emoji: "🥤",
-    image: null
-  },
-  {
-    id: 3,
-    nom: "Paella valencienne",
-    categorie: "Plat principal",
-    description: "Riz au poulet, lapin et safran.",
-    ingredients: ["riz", "poulet", "lapin", "haricots", "safran", "bouillon"],
-    difficulte: "Moyenne",
-    date: "2024-05-20",
-    emoji: "🥘",
-    image: null
-  },
-  {
-    id: 4,
-    nom: "Croquettes au jambon",
-    categorie: "Entrée",
-    description: "Crémeuses à l'intérieur, croustillantes à l'extérieur.",
-    ingredients: ["jambon", "lait", "farine", "beurre", "chapelure"],
-    difficulte: "Moyenne",
-    date: "2024-02-14",
-    emoji: "🥟",
-    image: null
-  },
-  {
-    id: 5,
-    nom: "Poulpe à la galicienne",
-    categorie: "Plat principal",
-    description: "Avec pommes de terre, paprika et huile d'olive.",
-    ingredients: ["poulpe", "pommes de terre", "paprika", "huile", "gros sel"],
-    difficulte: "Moyenne",
-    date: "2024-07-08",
-    emoji: "🐙",
-    image: null
-  }
-]);
-    const [modal, setModal] = useState(false);
-    const [recetteAModifier, setRecetteAModifier] = useState(null);
+        {
+            photo: "/images/tajine.jpg",
+            nom: "Tajine de poulet",
+            categorie: "plat",
+            ingredients: ["Poulet", "Oignon", "Olives", "Citron"],
+            difficulte: 2,
+            description: "Un délicieux tajine marocain aux olives."
+        },
+        {
+            photo: "/images/couscous.jpg",
+            nom: "Couscous marocain",
+            categorie: "plat",
+            ingredients: ["Semoule", "Carottes", "Courgettes", "Viande"],
+            difficulte: 3,
+            description: "Un couscous traditionnel aux légumes."
+        },
+        {
+            photo: "/images/crepes.jpg",
+            nom: "Crêpes sucrées",
+            categorie: "dessert",
+            ingredients: ["Farine", "Lait", "Œufs", "Sucre"],
+            difficulte: 1,
+            description: "Des crêpes légères et faciles à préparer."
+        },
+        {
+            photo: "/images/salade.jpg",
+            nom: "Salade marocaine",
+            categorie: "entrée",
+            ingredients: ["Tomates", "Concombre", "Oignon", "Persil"],
+            difficulte: 1,
+            description: "Une salade fraîche et rapide à préparer."
+        }
+    ]);
+
+    const [afficherForm, setAfficherForm] = useState(false);
+    const [indiceModif, setIndiceModif] = useState(null);
+    const [search, setSearch] = useState("");
+    const [cat, setCat] = useState("");
     const [page, setPage] = useState(1);
-    const [recherche, setRecherche] = useState("");
-    const [categorie, setCategorie] = useState("");
 
-    function normaliser(texte) {
-        return texte
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase();
+    function modifier_recipe(indice) {
+        setIndiceModif(indice);
+        setAfficherForm(true);
     }
 
-    const recettesFiltrees = recettes.filter((r) => {
-        const correspondNom = normaliser(r.nom).includes(normaliser(recherche.trim()));
-        const correspondCategorie = categorie === "" || r.categorie === categorie;
-        return correspondNom && correspondCategorie;
-    });
-
-    const recettesParPage = 3;
-    const totalPages = Math.max(1, Math.ceil(recettesFiltrees.length / recettesParPage));
-    const pageCourante = Math.min(page, totalPages);
-
-    const debut = (pageCourante - 1) * recettesParPage;
-    const recettesAffichees = recettesFiltrees.slice(debut, debut + recettesParPage);
-
-    function changerRecherche(valeur) {
-        setRecherche(valeur);
+    function ajouterRecipe(recette) {
+        setRecettes([...recettes, recette]);
+        setAfficherForm(false);
         setPage(1);
     }
 
-    function changerCategorie(valeur) {
-        setCategorie(valeur);
+    function enregistrerModification(recette) {
+        setRecettes(recettes.map((e, index) =>
+            index === indiceModif ? recette : e
+        ));
+
+        setAfficherForm(false);
+        setIndiceModif(null);
+    }
+
+    function dupliquer_recipe(indice) {
+        const nouvelleRecette = {
+            ...recettes[indice],
+            ingredients: [...recettes[indice].ingredients]
+        };
+
+        setRecettes([...recettes, nouvelleRecette]);
         setPage(1);
     }
 
-    function ouvrirCreation() {
-        setRecetteAModifier(null);
-        setModal(true);
+    function supprimer_recipe(indice) {
+        setRecettes(recettes.filter((e, index) => index !== indice));
+        setPage(1);
     }
 
-    function fermerModal() {
-        setModal(false);
-        setRecetteAModifier(null);
+    function filtrer(nouveauSearch, nouvelleCat) {
+        setSearch(nouveauSearch);
+        setCat(nouvelleCat);
+        setPage(1);
     }
 
-    function modifierRecette(id) {
-        const recette = recettes.find((r) => r.id === id);
+    const recettesFiltrees = recettes
+        .map((recette, indice) => ({ recette, indice }))
+        .filter(({ recette }) =>
+            recette.nom.toLowerCase().includes(search.toLowerCase()) &&
+            (cat === "" || recette.categorie === cat)
+        );
 
-        if (recette) {
-            setRecetteAModifier(recette);
-            setModal(true);
-        }
-    }
-
-    function enregistrerRecette(recette) {
-        if (recetteAModifier) {
-            setRecettes(
-                recettes.map((r) =>
-                    r.id === recetteAModifier.id ? { ...r, ...recette } : r
-                )
-            );
-        } else {
-            setRecettes([...recettes, { ...recette, id: Date.now() }]);
-        }
-
-        fermerModal();
-    }
-
-    function supprimerRecette(id) {
-        setRecettes(recettes.filter((r) => r.id !== id));
-    }
-
-    function dupliquerRecette(id) {
-        const recette = recettes.find((r) => r.id === id);
-
-        if (recette) {
-            setRecettes([
-                ...recettes,
-                { ...recette, id: Date.now() }
-            ]);
-        }
-    }
+    // Nombre de recettes affichées sur chaque page
+    const parPage = 2;
+    // Calcule le nombre total de pages nécessaires
+    const totalPages = Math.ceil(recettesFiltrees.length / parPage);
+    // Récupère les recettes correspondant à la page actuelle
+    const recettesPage = recettesFiltrees.slice(
+        (page - 1) * parPage, // Index de début
+        page * parPage        // Index de fin (exclu)
+);
 
     return (
-        <div className="page">
-            <header className="page-header">
-                <h1 className="page-title">🍽️ Creative Recipe Builder</h1>
+        <div>
+            <h1>Creative Recipe Builder</h1>
 
-                <div className="header-actions">
-                    <RecipeFilter
-                        recherche={recherche}
-                        setRecherche={changerRecherche}
-                        categorie={categorie}
-                        setCategorie={changerCategorie}
-                    />
+            <RecipeFilter
+                liste={recettes}
+                search={search}
+                cat={cat}
+                filtrer={filtrer}
+            />
 
-                    <button className="btn-primary" onClick={ouvrirCreation}>
-                        + Créer une nouvelle recette
-                    </button>
-                </div>
-            </header>
+            <button onClick={() => {
+                setIndiceModif(null);
+                setAfficherForm(true);
+            }}>
+                Créer une nouvelle recette
+            </button>
 
-            {modal && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <div className="modal-head">
-                            <h2>
-                                {recetteAModifier ? "Modifier la recette" : "Nouvelle recette"}
-                            </h2>
-
-                            <button className="btn-ghost" onClick={fermerModal}>
-                                Fermer
-                            </button>
-                        </div>
-
-                        <RecipeForm
-                            key={recetteAModifier ? recetteAModifier.id : "nouvelle"}
-                            recetteAModifier={recetteAModifier}
-                            enregistrerRecette={enregistrerRecette}
-                            annuler={fermerModal}
-                        />
-                    </div>
-                </div>
+            {afficherForm && (
+                <RecipeForm
+                    recette={
+                        indiceModif !== null
+                            ? recettes[indiceModif]
+                            : null
+                    }
+                    modifier_recipe={enregistrerModification}
+                    ajouter_recipe={ajouterRecipe}
+                    annuler={() => {
+                        setAfficherForm(false);
+                        setIndiceModif(null);
+                    }}
+                />
             )}
 
-            <div className="layout">
-                <main>
-                    <RecipeList
-                        recettes={recettesAffichees}
-                        modifierRecette={modifierRecette}
-                        supprimerRecette={supprimerRecette}
-                        dupliquerRecette={dupliquerRecette}
-                    />
+            <RecipeList
+                recettes={recettesPage}
+                modifier_recipe={modifier_recipe}
+                dupliquer_recipe={dupliquer_recipe}
+                supprimer_recipe={supprimer_recipe}
+            />
 
-                    <Pagination
-                        page={pageCourante}
-                        setPage={setPage}
-                        totalPages={totalPages}
-                    />
-                </main>
+            {totalPages > 0 && (
+                <Pagination
+                    page={page}
+                    totalPages={totalPages}
+                    setPage={setPage}
+                />
+            )}
 
-                <Aide />
-            </div>
         </div>
     );
 }

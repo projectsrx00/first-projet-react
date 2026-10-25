@@ -1,24 +1,19 @@
-import "./Pagination.css";
 
 function Pagination(props) {
-    const pages = [];
-
-    for (let i = 1; i <= props.totalPages; i++) {
-    pages.push(i);
-    }
-
     return (
-        <nav className="pagination">
-            {pages.map((numero) => (
-                <button
-                    key={numero}
-                    className={numero === props.page ? "page-btn active" : "page-btn"}
-                    onClick={() => props.setPage(numero)}
-                >
-                    {numero}
-                </button>
-            ))}
-        </nav>
+        <div>
+            <button onClick={() => props.setPage(props.page - 1)}
+                disabled={props.page === 1}>
+                Précédent
+            </button>
+
+            <span> Page {props.page} </span>
+
+            <button onClick={() => props.setPage(props.page + 1)}
+                disabled={props.page === props.totalPages}>
+                Suivant
+            </button>
+        </div>
     );
 }
 
