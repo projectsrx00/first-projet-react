@@ -1,4 +1,3 @@
-
 import MainPage from "./composants/MainPage";
 
 function App() {
