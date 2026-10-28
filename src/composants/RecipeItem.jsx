@@ -11,7 +11,7 @@ function RecipeItem (props) {
             </ul>
             <p>Difficulte : {'o'.repeat(props.difficulte)}</p>
             <p>{props.description}</p>
-            <button onClick={()=>props.modifier_recipe(props.indice)}>Modifier</button>
+            <button onClick={() => props.modifier_recipe(props.indice)}>Modifier</button>
             <button onClick={()=>props.dupliquer_recipe(props.indice)}>Dupliquer</button>
             <button onClick={()=>props.supprimer_recipe(props.indice)}>Supprimer</button>
         </div>

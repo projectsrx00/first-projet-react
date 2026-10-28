@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import RecipeItem from "./RecipeItem";
 import RecipeForm from "./RecipeForm";
 import RecipeFilter from "./RecipeFilter";
 import RecipeList from "./RecipeList";
