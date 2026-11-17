@@ -1,0 +1,159 @@
+
+/* GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f1e8;
+    color: #26352c;
+}
+
+/* MAIN PAGE */
+.main-page {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+/* TITLE */
+.main-page h1 {
+    text-align: center;
+    color: #284b36;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+/* DASHBOARD */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.dashboard-item {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    border-top: 4px solid #b69b52;
+}
+
+.dashboard-item h3 {
+    color: #718477;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.dashboard-item p {
+    font-size: 25px;
+    font-weight: bold;
+    color: #284b36;
+}
+
+/* FILTERS */
+.potion-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.potion-filter input {
+    padding: 11px 15px;
+    border: 1px solid #cbd3c8;
+    border-radius: 8px;
+    outline: none;
+    flex: 1;
+    min-width: 180px;
+}
+
+.potion-filter input:focus {
+    border-color: #52745c;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 16px;
+    background-color: #355b43;
+    color: white;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: #24412f;
+    transform: translateY(-2px);
+}
+
+/* POTION LIST */
+.potion-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* POTION CARD */
+.potion-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+    border: 1px solid #e2e5dc;
+}
+
+.potion-card h3 {
+    color: #355b43;
+    margin: 15px 0;
+    font-size: 19px;
+}
+
+.potion-card p {
+    margin-bottom: 10px;
+    color: #626d63;
+}
+
+.potion-card button {
+    margin: 5px 5px 5px 0;
+}
+
+.potion-card button:last-child {
+    background-color: #a33f3f;
+}
+
+.potion-card button:last-child:hover {
+    background-color: #812d2d;
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .potion-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .potion-list {
+        grid-template-columns: 1fr;
+    }
+
+    .main-page {
+        padding: 20px 12px;
+    }
+}
